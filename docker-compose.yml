@@ -1,8 +1,12 @@
 services:
   litellm:
     image: docker.litellm.ai/berriai/litellm:main-stable
-    ports:
-      - '4000:4000'
+    restart: always
+    expose:
+      - '4000'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.litellm.loadbalancer.server.port=4000"
     environment:
       DATABASE_URL: ${DATABASE_URL}
       STORE_MODEL_IN_DB: 'True'
